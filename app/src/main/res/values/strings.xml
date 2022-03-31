@@ -3,4 +3,7 @@
     <string name="move_up">Move Up</string>
     <string name="move_down">Move Down</string>
     <string name="remove">Remove</string>
+    <string name="filed_to_load_users">Filed to load users</string>
+    <string name="try_again">Try again</string>
+    <string name="no_users">No users</string>
 </resources>
