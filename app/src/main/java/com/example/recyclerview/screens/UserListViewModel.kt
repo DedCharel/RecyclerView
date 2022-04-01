@@ -14,6 +14,10 @@ class UserListViewModel(
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>> = _users
 
+    private val listener: UsersListener = {
+        _users.value = it
+    }
+
     init {
         loadUsers()
     }
@@ -35,7 +39,5 @@ class UserListViewModel(
         userService.deleteUser(user)
     }
 
-    private val listener: UsersListener = {
-        _users.value = it
-    }
+
 }
