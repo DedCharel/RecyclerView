@@ -14,6 +14,9 @@ class VIewModelFactory(
             UserListViewModel::class.java ->{
                 UserListViewModel(app.usersService)
             }
+            UserDetailsViewModel::class.java ->{
+                UserDetailsViewModel(app.usersService)
+            }
             else -> {
                 throw IllegalStateException("Unknown view model class")
             }

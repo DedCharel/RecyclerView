@@ -35,7 +35,7 @@ class UserListFragment: Fragment() {
             }
 
             override fun onUserDetails(user: User) {
-                TODO("Not yet implemented")
+
             }
 
         })
