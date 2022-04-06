@@ -6,4 +6,5 @@
     <string name="filed_to_load_users">Filed to load users</string>
     <string name="try_again">Try again</string>
     <string name="no_users">No users</string>
+    <string name="user_has_been_deleted">User has been deleted</string>
 </resources>

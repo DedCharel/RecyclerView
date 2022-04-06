@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.recyclerview.App
+import com.example.recyclerview.Navigator
 import java.lang.IllegalStateException
 
 class VIewModelFactory(
@@ -26,3 +27,5 @@ class VIewModelFactory(
 }
 
 fun Fragment.factory() = VIewModelFactory(requireContext().applicationContext as App)
+
+fun Fragment.navigator() = requireActivity() as Navigator
