@@ -1,25 +1,25 @@
 package com.example.recyclerview.screens
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.recyclerview.App
 import com.example.recyclerview.Navigator
 import java.lang.IllegalStateException
 
+typealias ViewModelCreator = (App) -> ViewModel?
 class VIewModelFactory(
-    private val app:App
+    private val app:App,
+    private val viewModelCreator: ViewModelCreator = {null}
 ):ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val viewModel = when (modelClass){
             UserListViewModel::class.java ->{
                 UserListViewModel(app.usersService)
             }
-            UserDetailsViewModel::class.java ->{
-                UserDetailsViewModel(app.usersService)
-            }
             else -> {
-                throw IllegalStateException("Unknown view model class")
+                viewModelCreator(app) ?: throw IllegalStateException("Unknown view model class")
             }
         }
         return viewModel as T
@@ -29,3 +29,7 @@ class VIewModelFactory(
 fun Fragment.factory() = VIewModelFactory(requireContext().applicationContext as App)
 
 fun Fragment.navigator() = requireActivity() as Navigator
+
+inline fun <reified VM: ViewModel> Fragment.viewModelCreator(noinline creator: ViewModelCreator): Lazy<VM> {
+    return viewModels { VIewModelFactory(requireContext().applicationContext as App, creator) }
+}

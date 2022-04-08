@@ -15,11 +15,10 @@ import com.example.recyclerview.databinding.FragmentUserDetailsBinding
 class UserDetailsFragment:Fragment() {
 
     private lateinit var binding: FragmentUserDetailsBinding
-    private val viewModel:UserDetailsViewModel by viewModels { factory() }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.loadUser(requireArguments().getLong(AGR_USER_ID))
+    private val userId get() = requireArguments().getLong(AGR_USER_ID)
+    private val viewModel:UserDetailsViewModel by viewModelCreator {
+        UserDetailsViewModel(it.usersService, userId)
     }
 
     override fun onCreateView(

@@ -9,13 +9,18 @@ import com.example.recyclerview.model.UserDetails
 import com.example.recyclerview.model.UserService
 
 class UserDetailsViewModel(
-    val userService: UserService
+    private val userService: UserService,
+    private val userId: Long
 ):ViewModel() {
 
     private val _userDetails = MediatorLiveData<UserDetails>()
     val userDetails: LiveData<UserDetails> = _userDetails
 
-    fun loadUser(userId: Long){
+    init {
+        loadUser()
+    }
+
+    fun loadUser(){
         if (_userDetails.value != null) return
         try {
            _userDetails.value = userService.getById(userId)
