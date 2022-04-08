@@ -1,6 +1,7 @@
 package com.example.recyclerview.model
 
 import com.example.recyclerview.UserNotFoundException
+import com.example.recyclerview.tasks.Task
 import com.github.javafaker.Faker
 import java.util.*
 
@@ -22,7 +23,7 @@ class UserService {
         ) }.toMutableList()
     }
 
-    fun getUsers(): List<User>{
+    fun loadUsers(): List<User>{
         return users
     }
 
