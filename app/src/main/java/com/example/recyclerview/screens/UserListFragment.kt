@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recyclerview.UserActionListener
 import com.example.recyclerview.UsersAdapter
@@ -38,6 +39,10 @@ class UserListFragment: Fragment() {
                 navigator().showDetails(user)
             }
 
+            override fun onUserFire(user: User) {
+                viewModel.fireUser(user)
+            }
+
         })
 
         viewModel.users.observe(viewLifecycleOwner, Observer {
@@ -47,6 +52,12 @@ class UserListFragment: Fragment() {
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = adapter
+
+        // уберем анимацию чтобы небыло мерцания при выполнении пункта Fire
+        val itemAnimator = binding.recyclerView.itemAnimator
+        if (itemAnimator is DefaultItemAnimator){
+            itemAnimator.supportsChangeAnimations = false
+        }
 
         return binding.root
     }

@@ -39,5 +39,9 @@ class UserListViewModel(
         userService.deleteUser(user)
     }
 
+    fun fireUser(user: User){
+        userService.fireUser(user)
+    }
+
 
 }

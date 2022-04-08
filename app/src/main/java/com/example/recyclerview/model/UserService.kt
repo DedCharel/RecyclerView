@@ -4,6 +4,7 @@ import com.example.recyclerview.UserNotFoundException
 import com.example.recyclerview.tasks.Task
 import com.github.javafaker.Faker
 import java.util.*
+import kotlin.collections.ArrayList
 
 typealias UsersListener = (users: List<User>) -> Unit
 
@@ -37,19 +38,30 @@ class UserService {
     }
 
     fun deleteUser(user: User){
-        val indexDelete = users.indexOfFirst {it.id == user.id}
-        if (indexDelete != -1){
-            users.removeAt(indexDelete)
+        val indexToDelete = findIndexById(user.id)
+        if (indexToDelete != -1){
+            users = ArrayList(users) // нужно пересозадать чтобы отобразилось (так как работаем с памятью, если получаем данный от куда-то то ненадо)
+            users.removeAt(indexToDelete)
             notifyChanges()
         }
     }
 
     fun moveUser(user: User, moveBy: Int){
-        val oldIndex = users.indexOfFirst { it.id == user.id}
+        val oldIndex = findIndexById(user.id)
         if (oldIndex == -1) return
         val newIndex = oldIndex + moveBy
         if (newIndex < 0 || newIndex >= users.size) return
+        users = ArrayList(users)
         Collections.swap(users, oldIndex, newIndex)
+        notifyChanges()
+    }
+
+    fun fireUser(user: User){
+        val index = findIndexById(user.id)
+        if (index == -1) return
+        val updaterUser = users[index].copy(company = "")
+        users = ArrayList(users)
+        users[index] = updaterUser
         notifyChanges()
     }
 
@@ -61,6 +73,8 @@ class UserService {
     fun removeListener(listener: UsersListener){
         listeners.remove(listener)
     }
+
+    private fun findIndexById(userId: Long): Int = users.indexOfFirst {it.id == userId}
 
     private fun notifyChanges(){
         listeners.forEach{it.invoke(users)}
